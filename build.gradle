@@ -1,5 +1,6 @@
 // Register the Gradle plugins.
 plugins {
+    id 'jacoco'
     id 'java'
     id 'java-library'
 }
