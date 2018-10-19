@@ -99,6 +99,9 @@ final public class Version {
      * @param build      The build metadata.
      */
     public Version(int major, int minor, int patch, List<String> preRelease, List<String> build) {
+        Objects.requireNonNull(build, "The build metadata list is required (even if empty).");
+        Objects.requireNonNull(preRelease, "The pre-release metadata list is required (even if empty).");
+
         this.build = Collections.unmodifiableList(build);
         this.major = major;
         this.minor = minor;
@@ -256,6 +259,8 @@ final public class Version {
      * @return Returns <code>true</code> if this version has a greater precedence, or <code>false</code> if otherwise.
      */
     public boolean isGreaterThan(Version other) {
+        Objects.requireNonNull(other, "The other version is required.");
+
         return compare(this, other) == GREATER;
     }
 
@@ -267,6 +272,8 @@ final public class Version {
      * @return Returns <code>true</code> if this version has a lesser precedence, or <code>false</code> if otherwise.
      */
     public boolean isLessThan(Version other) {
+        Objects.requireNonNull(other, "The other version is required.");
+
         return compare(this, other) == LESSER;
     }
 
@@ -289,6 +296,8 @@ final public class Version {
      * @throws InvalidVersionException If the string is not a valid semantic version number.
      */
     public static Version of(String string) throws InvalidVersionException {
+        Objects.requireNonNull(string, "The string representation is required.");
+
         if (!VALIDATOR.matcher(string).matches()) {
             throw new InvalidVersionException(
                 String.format(
@@ -336,6 +345,8 @@ final public class Version {
      * @return The new instance.
      */
     public Version setBuild(List<String> metadata) {
+        Objects.requireNonNull(metadata, "The build metadata list is required (even if empty).");
+
         return new Version(major, minor, patch, preRelease, metadata);
     }
 
@@ -391,6 +402,8 @@ final public class Version {
      * @return The new instance.
      */
     public Version setPreRelease(List<String> metadata) {
+        Objects.requireNonNull(metadata, "The pre-release metadata list is required (even if empty).");
+
         return new Version(major, minor, patch, metadata, build);
     }
 
