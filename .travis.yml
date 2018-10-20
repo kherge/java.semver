@@ -13,8 +13,6 @@ jdk:
     - openjdk11
     - openjdk-ea
     - oraclejdk8
-    - oraclejdk10
-    - oraclejdk-ea
 
 language: java
 
