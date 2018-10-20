@@ -32,6 +32,13 @@ dependencies {
     testCompile('org.mockito:mockito-core:2.23.0')
 }
 
+// Use JaCoCo to generate code coverage reports.
+jacocoTestReport {
+
+    // Require that tests be performed first.
+    dependsOn 'test'
+}
+
 // Use JUnit 5 for testing.
 // https://docs.gradle.org/current/userguide/java_testing.html#using_junit5
 test {
