@@ -3,6 +3,10 @@ plugins {
     id 'jacoco'
     id 'java'
     id 'java-library'
+
+    // Use SonarQube.
+    // https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle
+    id 'org.sonarqube' version '2.6'
 }
 
 // Set the library information.
@@ -37,6 +41,16 @@ jacocoTestReport {
 
     // Require that tests be performed first.
     dependsOn 'test'
+}
+
+// Use SonarQube to analyze the code.
+sonarqube {
+    properties {
+        property 'sonar.projectKey', 'kherge_java.semver'
+        property 'sonar.organization', 'kherge-github'
+        property 'sonar.host.url', 'https://sonarcloud.io'
+        property 'sonar.login', System.getenv('SONAR_TOKEN')
+    }
 }
 
 // Use JUnit 5 for testing.
