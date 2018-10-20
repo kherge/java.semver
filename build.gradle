@@ -36,6 +36,13 @@ dependencies {
     testCompile('org.mockito:mockito-core:2.23.0')
 }
 
+// Configure the JaCoCo tool.
+jacoco {
+
+    // Use 0.8.2 to support JDK 11.
+    toolVersion = '0.8.2'
+}
+
 // Use JaCoCo to generate code coverage reports.
 jacocoTestReport {
 
