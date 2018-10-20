@@ -58,7 +58,7 @@ abstract class Composite implements Constraint {
      */
     public Composite add(Constraint... constraint) {
         for (Constraint c : constraint) {
-            Objects.requireNonNull(constraint, "The version constraint is required.");
+            Objects.requireNonNull(constraint, "The constraint is required.");
 
             constraints.add(c);
         }
@@ -68,7 +68,7 @@ abstract class Composite implements Constraint {
 
     @Override
     public boolean apply(Version version) {
-        Objects.requireNonNull(version, "The version to constrain is required.");
+        Objects.requireNonNull(version, "The version number to constrain is required.");
 
         for (Constraint constraint: constraints) {
             switch (constrain(version, constraint)) {
