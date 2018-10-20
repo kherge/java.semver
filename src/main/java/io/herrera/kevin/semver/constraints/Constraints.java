@@ -6,7 +6,7 @@ import io.herrera.kevin.semver.Version;
 /**
  * Provides static aliases to version constraints.
  */
-final public class Constraints {
+public final class Constraints {
 
     /**
      * Requires that a version match all constraints in a set.
