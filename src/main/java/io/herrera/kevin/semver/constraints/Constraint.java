@@ -18,7 +18,7 @@ public interface Constraint {
      * @throws InvalidVersionException If the string is not a valid semantic version number.
      */
     default boolean apply(String version) throws InvalidVersionException {
-        return apply(Version.parse(version));
+        return apply(new Version(version));
     }
 
     /**

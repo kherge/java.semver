@@ -22,7 +22,7 @@ public class GreaterThanOrEqualTo implements Constraint {
      * @throws InvalidVersionException If the string is not a valid semantic version number.
      */
     public GreaterThanOrEqualTo(String version) throws InvalidVersionException {
-        this(Version.parse(version));
+        this(new Version(version));
     }
 
     /**

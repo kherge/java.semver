@@ -1,6 +1,5 @@
 package io.herrera.kevin.semver;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -107,6 +106,15 @@ final public class Version {
         this.minor = minor;
         this.patch = patch;
         this.preRelease = Collections.unmodifiableList(preRelease);
+    }
+
+    /**
+     * Sets the information for the new representation using the string representation..
+     *
+     * @param string The string representation.
+     */
+    public Version(String string) throws InvalidVersionException {
+        parse(string);
     }
 
     /**
@@ -284,57 +292,6 @@ final public class Version {
      */
     public boolean isStable() {
         return (major > 0) && preRelease.isEmpty();
-    }
-
-    /**
-     * Parses a valid semantic version number into a <code>Version</code> instance.
-     *
-     * @param string The string representation.
-     *
-     * @return The new representation.
-     *
-     * @throws InvalidVersionException If the string is not a valid semantic version number.
-     */
-    public static Version parse(String string) throws InvalidVersionException {
-        Objects.requireNonNull(string, "The string representation is required.");
-
-        if (!VALIDATOR.matcher(string).matches()) {
-            throw new InvalidVersionException(
-                String.format(
-                    "The string \"%s\" is not a valid semantic version number.",
-                    string
-                )
-            );
-        }
-
-        List<String> build = new ArrayList<>();
-        String metadata[];
-
-        if (string.contains("+")) {
-            metadata = string.split("\\+", 2);
-            string = metadata[0];
-
-            build = Arrays.asList(metadata[1].split("\\."));
-        }
-
-        List<String> preRelease = new ArrayList<>();
-
-        if (string.contains("-")) {
-            metadata = string.split("-", 2);
-            string = metadata[0];
-
-            preRelease = Arrays.asList(metadata[1].split("\\."));
-        }
-
-        String[] numbers = string.split("\\.");
-
-        return new Version(
-            Integer.parseInt(numbers[0]),
-            Integer.parseInt(numbers[1]),
-            Integer.parseInt(numbers[2]),
-            preRelease,
-            build
-        );
     }
 
     /**
@@ -527,6 +484,52 @@ final public class Version {
         }
 
         return EQUAL;
+    }
+
+    /**
+     * Parses a valid semantic version number into the current instance.
+     *
+     * @param string The string representation.
+     *
+     * @throws InvalidVersionException If the string is not a valid semantic version number.
+     */
+    private void parse(String string) throws InvalidVersionException {
+        Objects.requireNonNull(string, "The string representation is required.");
+
+        if (!VALIDATOR.matcher(string).matches()) {
+            throw new InvalidVersionException(
+                String.format(
+                    "The string \"%s\" is not a valid semantic version number.",
+                    string
+                )
+            );
+        }
+
+        String metadata[];
+
+        if (string.contains("+")) {
+            metadata = string.split("\\+", 2);
+            string = metadata[0];
+
+            build = Arrays.asList(metadata[1].split("\\."));
+        } else {
+            build = Collections.unmodifiableList(Collections.emptyList());
+        }
+
+        if (string.contains("-")) {
+            metadata = string.split("-", 2);
+            string = metadata[0];
+
+            preRelease = Arrays.asList(metadata[1].split("\\."));
+        } else {
+            preRelease = Collections.unmodifiableList(Collections.emptyList());
+        }
+
+        String[] numbers = string.split("\\.");
+
+        major = Integer.parseInt(numbers[0]);
+        minor = Integer.parseInt(numbers[1]);
+        patch = Integer.parseInt(numbers[2]);
     }
 
     /**

@@ -189,7 +189,7 @@ public class VersionTest {
      */
     @Test
     public void ofExceptionTest() {
-        assertThrows(InvalidVersionException.class, () -> Version.parse("x.y.z"));
+        assertThrows(InvalidVersionException.class, () -> new Version("x.y.z"));
     }
 
     /**
@@ -232,14 +232,14 @@ public class VersionTest {
     private static Object[][] getEqualVersions() throws Exception {
         return new Object[][] {
 
-            { Version.parse("0.0.0"), Version.parse("0.0.0") },
-            { Version.parse("0.0.1"), Version.parse("0.0.1") },
-            { Version.parse("0.1.0"), Version.parse("0.1.0") },
-            { Version.parse("1.0.0"), Version.parse("1.0.0") },
-            { Version.parse("1.1.1"), Version.parse("1.1.1") },
+            { new Version("0.0.0"), new Version("0.0.0") },
+            { new Version("0.0.1"), new Version("0.0.1") },
+            { new Version("0.1.0"), new Version("0.1.0") },
+            { new Version("1.0.0"), new Version("1.0.0") },
+            { new Version("1.1.1"), new Version("1.1.1") },
 
-            { Version.parse("0.0.0-0"), Version.parse("0.0.0-0") },
-            { Version.parse("0.0.0+0"), Version.parse("0.0.0+1") },
+            { new Version("0.0.0-0"), new Version("0.0.0-0") },
+            { new Version("0.0.0+0"), new Version("0.0.0+1") },
         };
     }
 
@@ -251,26 +251,26 @@ public class VersionTest {
     private static Object[][] getGreaterVersions() throws Exception {
         return new Object[][] {
 
-            { Version.parse("0.0.2"), Version.parse("0.0.1") },
-            { Version.parse("0.2.0"), Version.parse("0.1.0") },
-            { Version.parse("2.0.0"), Version.parse("1.0.0") },
+            { new Version("0.0.2"), new Version("0.0.1") },
+            { new Version("0.2.0"), new Version("0.1.0") },
+            { new Version("2.0.0"), new Version("1.0.0") },
 
-            { Version.parse("0.0.0"), Version.parse("0.0.0-0") },
-            { Version.parse("0.0.0-2"), Version.parse("0.0.0-1") },
-            { Version.parse("0.0.0-a"), Version.parse("0.0.0-3") },
-            { Version.parse("0.0.0-b"), Version.parse("0.0.0-a") },
+            { new Version("0.0.0"), new Version("0.0.0-0") },
+            { new Version("0.0.0-2"), new Version("0.0.0-1") },
+            { new Version("0.0.0-a"), new Version("0.0.0-3") },
+            { new Version("0.0.0-b"), new Version("0.0.0-a") },
 
-            { Version.parse("0.0.0-a.b.c"), Version.parse("0.0.0-a.1") },
-            { Version.parse("0.0.0-1.2.b"), Version.parse("0.0.0-1.2") },
+            { new Version("0.0.0-a.b.c"), new Version("0.0.0-a.1") },
+            { new Version("0.0.0-1.2.b"), new Version("0.0.0-1.2") },
 
-            { Version.parse("0.0.0-rc"), Version.parse("0.0.0-beta") },
-            { Version.parse("0.0.0-beta"), Version.parse("0.0.0-alpha") },
+            { new Version("0.0.0-rc"), new Version("0.0.0-beta") },
+            { new Version("0.0.0-beta"), new Version("0.0.0-alpha") },
 
-            { Version.parse("1.0.0"), Version.parse("1.0.0-rc.1") },
-            { Version.parse("1.0.0-rc.1"), Version.parse("1.0.0-beta.11") },
-            { Version.parse("1.0.0-beta.11"), Version.parse("1.0.0-beta.2") },
-            { Version.parse("1.0.0-beta.2"), Version.parse("1.0.0-alpha.beta") },
-            { Version.parse("1.0.0-alpha.beta"), Version.parse("1.0.0-alpha.1") },
+            { new Version("1.0.0"), new Version("1.0.0-rc.1") },
+            { new Version("1.0.0-rc.1"), new Version("1.0.0-beta.11") },
+            { new Version("1.0.0-beta.11"), new Version("1.0.0-beta.2") },
+            { new Version("1.0.0-beta.2"), new Version("1.0.0-alpha.beta") },
+            { new Version("1.0.0-alpha.beta"), new Version("1.0.0-alpha.1") },
         };
     }
 
@@ -282,26 +282,26 @@ public class VersionTest {
     private static Object[][] getLesserVersions() throws Exception {
         return new Object[][] {
 
-            { Version.parse("0.0.1"), Version.parse("0.0.2") },
-            { Version.parse("0.1.0"), Version.parse("0.2.0") },
-            { Version.parse("1.0.0"), Version.parse("2.0.0") },
+            { new Version("0.0.1"), new Version("0.0.2") },
+            { new Version("0.1.0"), new Version("0.2.0") },
+            { new Version("1.0.0"), new Version("2.0.0") },
 
-            { Version.parse("0.0.0-0"), Version.parse("0.0.0") },
-            { Version.parse("0.0.0-1"), Version.parse("0.0.0-2") },
-            { Version.parse("0.0.0-3"), Version.parse("0.0.0-a") },
-            { Version.parse("0.0.0-a"), Version.parse("0.0.0-b") },
+            { new Version("0.0.0-0"), new Version("0.0.0") },
+            { new Version("0.0.0-1"), new Version("0.0.0-2") },
+            { new Version("0.0.0-3"), new Version("0.0.0-a") },
+            { new Version("0.0.0-a"), new Version("0.0.0-b") },
 
-            { Version.parse("0.0.0-a.1"), Version.parse("0.0.0-a.b.c") },
-            { Version.parse("0.0.0-1.2"), Version.parse("0.0.0-1.2.b") },
+            { new Version("0.0.0-a.1"), new Version("0.0.0-a.b.c") },
+            { new Version("0.0.0-1.2"), new Version("0.0.0-1.2.b") },
 
-            { Version.parse("0.0.0-beta"), Version.parse("0.0.0-rc") },
-            { Version.parse("0.0.0-alpha"), Version.parse("0.0.0-beta") },
+            { new Version("0.0.0-beta"), new Version("0.0.0-rc") },
+            { new Version("0.0.0-alpha"), new Version("0.0.0-beta") },
 
-            { Version.parse("1.0.0-rc.1"), Version.parse("1.0.0") },
-            { Version.parse("1.0.0-beta.11"), Version.parse("1.0.0-rc.1") },
-            { Version.parse("1.0.0-beta.2"), Version.parse("1.0.0-beta.11") },
-            { Version.parse("1.0.0-alpha.beta"), Version.parse("1.0.0-beta.2") },
-            { Version.parse("1.0.0-alpha.1"), Version.parse("1.0.0-alpha.beta") },
+            { new Version("1.0.0-rc.1"), new Version("1.0.0") },
+            { new Version("1.0.0-beta.11"), new Version("1.0.0-rc.1") },
+            { new Version("1.0.0-beta.2"), new Version("1.0.0-beta.11") },
+            { new Version("1.0.0-alpha.beta"), new Version("1.0.0-beta.2") },
+            { new Version("1.0.0-alpha.1"), new Version("1.0.0-alpha.beta") },
         };
     }
 
