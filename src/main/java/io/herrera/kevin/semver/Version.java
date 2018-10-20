@@ -148,7 +148,7 @@ final public class Version {
             return false;
         }
 
-        if (!Version.class.isAssignableFrom(object.getClass())) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
 
