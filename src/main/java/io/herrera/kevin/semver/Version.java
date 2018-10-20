@@ -9,36 +9,36 @@ import java.util.regex.Pattern;
 /**
  * An immutable representation of a semantic version number.
  */
-final public class Version {
+public final class Version {
     /**
      * A default version number (0.0.0) that can be used as a starting point.
      */
-    public final static Version DEFAULT = new Version(0, 0, 0);
+    public static final Version DEFAULT = new Version(0, 0, 0);
 
     /**
      * Validates a string as an integer.
      */
-    private final static Pattern INTEGER = Pattern.compile("^\\d+$");
+    private static final Pattern INTEGER = Pattern.compile("^\\d+$");
 
     /**
      * Indicates that a version has equivalent precedence.
      */
-    private final static int EQUAL = 0;
+    private static final int EQUAL = 0;
 
     /**
      * Indicates that a version has greater precedence.
      */
-    private final static int GREATER = 1;
+    private static final int GREATER = 1;
 
     /**
      * Indicates that a version has lesser precedence.
      */
-    private final static int LESSER = -1;
+    private static final int LESSER = -1;
 
     /**
      * Validates a string as a semantic version number.
      */
-    private final static Pattern VALIDATOR = Pattern.compile("^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$");
+    private static final Pattern VALIDATOR = Pattern.compile("^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$");
 
     /**
      * The build metadata.

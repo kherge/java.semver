@@ -5,7 +5,7 @@ import io.herrera.kevin.semver.Version;
 /**
  * Requires that a version match all constraints in a set.
  */
-final public class And extends Composite {
+public final class And extends Composite {
 
     public And() {
         super(true);
