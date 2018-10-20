@@ -152,7 +152,7 @@ final public class Version {
             return false;
         }
 
-        return (compare(this, (Version) object) == EQUAL);
+        return isEqualTo((Version) object);
     }
 
     /**
@@ -257,6 +257,19 @@ final public class Version {
      */
     public Version incrementPatch(int amount) {
         return setPatch(patch + amount);
+    }
+
+    /**
+     * Checks if this version is equal in precedence to the one provided.
+     *
+     * @param other The other version to compare.
+     *
+     * @return Returns <code>true</code> if this version has equal precedence, or <code>false</code> if otherwise.
+     */
+    public boolean isEqualTo(Version other) {
+        Objects.requireNonNull(other, "The other version is required.");
+
+        return compare(this, other) == EQUAL;
     }
 
     /**
