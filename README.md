@@ -13,10 +13,9 @@ complex version constraints.
 > is no one-size-fits-all solution since each package manager has its own grammar for version constraints.
 
 ```java
-Version current = new Version("1.2.3");
-Version update = new Version("1.2.4");
+Version version = new Version ("1.2.3");
 
-if (update.isGreaterThan(current)) {
+if (and(gte("1.0.0"), lt("2.0.0")).apply(version)) {
     // ...
 }
 ```
