@@ -12,7 +12,7 @@ final public class Or extends Composite {
     }
 
     @Override
-    public Or add(Constraint constraint) {
+    public Or add(Constraint... constraint) {
         super.add(constraint);
 
         return this;

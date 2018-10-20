@@ -52,14 +52,16 @@ abstract class Composite implements Constraint {
     /**
      * Adds a version constraint to the set.
      *
-     * @param constraint The constraint to add.
+     * @param constraint,... The constraint to add.
      *
      * @return A fluent interface.
      */
-    public Composite add(Constraint constraint) {
-        Objects.requireNonNull(constraint, "The version constraint is required.");
+    public Composite add(Constraint... constraint) {
+        for (Constraint c : constraint) {
+            Objects.requireNonNull(constraint, "The version constraint is required.");
 
-        constraints.add(constraint);
+            constraints.add(c);
+        }
 
         return this;
     }

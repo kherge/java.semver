@@ -12,7 +12,7 @@ final public class And extends Composite {
     }
 
     @Override
-    public And add(Constraint constraint) {
+    public And add(Constraint... constraint) {
         super.add(constraint);
 
         return this;
