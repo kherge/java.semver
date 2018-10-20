@@ -22,7 +22,7 @@ public class NotEqualTo implements Constraint {
      * @throws InvalidVersionException If the string is not a valid semantic version number.
      */
     public NotEqualTo(String version) throws InvalidVersionException {
-        this(Version.of(version));
+        this(Version.parse(version));
     }
 
     /**

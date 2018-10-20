@@ -189,7 +189,7 @@ public class VersionTest {
      */
     @Test
     public void ofExceptionTest() {
-        assertThrows(InvalidVersionException.class, () -> Version.of("x.y.z"));
+        assertThrows(InvalidVersionException.class, () -> Version.parse("x.y.z"));
     }
 
     /**
@@ -232,14 +232,14 @@ public class VersionTest {
     private static Object[][] getEqualVersions() throws Exception {
         return new Object[][] {
 
-            { Version.of("0.0.0"), Version.of("0.0.0") },
-            { Version.of("0.0.1"), Version.of("0.0.1") },
-            { Version.of("0.1.0"), Version.of("0.1.0") },
-            { Version.of("1.0.0"), Version.of("1.0.0") },
-            { Version.of("1.1.1"), Version.of("1.1.1") },
+            { Version.parse("0.0.0"), Version.parse("0.0.0") },
+            { Version.parse("0.0.1"), Version.parse("0.0.1") },
+            { Version.parse("0.1.0"), Version.parse("0.1.0") },
+            { Version.parse("1.0.0"), Version.parse("1.0.0") },
+            { Version.parse("1.1.1"), Version.parse("1.1.1") },
 
-            { Version.of("0.0.0-0"), Version.of("0.0.0-0") },
-            { Version.of("0.0.0+0"), Version.of("0.0.0+1") },
+            { Version.parse("0.0.0-0"), Version.parse("0.0.0-0") },
+            { Version.parse("0.0.0+0"), Version.parse("0.0.0+1") },
         };
     }
 
@@ -251,26 +251,26 @@ public class VersionTest {
     private static Object[][] getGreaterVersions() throws Exception {
         return new Object[][] {
 
-            { Version.of("0.0.2"), Version.of("0.0.1") },
-            { Version.of("0.2.0"), Version.of("0.1.0") },
-            { Version.of("2.0.0"), Version.of("1.0.0") },
+            { Version.parse("0.0.2"), Version.parse("0.0.1") },
+            { Version.parse("0.2.0"), Version.parse("0.1.0") },
+            { Version.parse("2.0.0"), Version.parse("1.0.0") },
 
-            { Version.of("0.0.0"), Version.of("0.0.0-0") },
-            { Version.of("0.0.0-2"), Version.of("0.0.0-1") },
-            { Version.of("0.0.0-a"), Version.of("0.0.0-3") },
-            { Version.of("0.0.0-b"), Version.of("0.0.0-a") },
+            { Version.parse("0.0.0"), Version.parse("0.0.0-0") },
+            { Version.parse("0.0.0-2"), Version.parse("0.0.0-1") },
+            { Version.parse("0.0.0-a"), Version.parse("0.0.0-3") },
+            { Version.parse("0.0.0-b"), Version.parse("0.0.0-a") },
 
-            { Version.of("0.0.0-a.b.c"), Version.of("0.0.0-a.1") },
-            { Version.of("0.0.0-1.2.b"), Version.of("0.0.0-1.2") },
+            { Version.parse("0.0.0-a.b.c"), Version.parse("0.0.0-a.1") },
+            { Version.parse("0.0.0-1.2.b"), Version.parse("0.0.0-1.2") },
 
-            { Version.of("0.0.0-rc"), Version.of("0.0.0-beta") },
-            { Version.of("0.0.0-beta"), Version.of("0.0.0-alpha") },
+            { Version.parse("0.0.0-rc"), Version.parse("0.0.0-beta") },
+            { Version.parse("0.0.0-beta"), Version.parse("0.0.0-alpha") },
 
-            { Version.of("1.0.0"), Version.of("1.0.0-rc.1") },
-            { Version.of("1.0.0-rc.1"), Version.of("1.0.0-beta.11") },
-            { Version.of("1.0.0-beta.11"), Version.of("1.0.0-beta.2") },
-            { Version.of("1.0.0-beta.2"), Version.of("1.0.0-alpha.beta") },
-            { Version.of("1.0.0-alpha.beta"), Version.of("1.0.0-alpha.1") },
+            { Version.parse("1.0.0"), Version.parse("1.0.0-rc.1") },
+            { Version.parse("1.0.0-rc.1"), Version.parse("1.0.0-beta.11") },
+            { Version.parse("1.0.0-beta.11"), Version.parse("1.0.0-beta.2") },
+            { Version.parse("1.0.0-beta.2"), Version.parse("1.0.0-alpha.beta") },
+            { Version.parse("1.0.0-alpha.beta"), Version.parse("1.0.0-alpha.1") },
         };
     }
 
@@ -282,26 +282,26 @@ public class VersionTest {
     private static Object[][] getLesserVersions() throws Exception {
         return new Object[][] {
 
-            { Version.of("0.0.1"), Version.of("0.0.2") },
-            { Version.of("0.1.0"), Version.of("0.2.0") },
-            { Version.of("1.0.0"), Version.of("2.0.0") },
+            { Version.parse("0.0.1"), Version.parse("0.0.2") },
+            { Version.parse("0.1.0"), Version.parse("0.2.0") },
+            { Version.parse("1.0.0"), Version.parse("2.0.0") },
 
-            { Version.of("0.0.0-0"), Version.of("0.0.0") },
-            { Version.of("0.0.0-1"), Version.of("0.0.0-2") },
-            { Version.of("0.0.0-3"), Version.of("0.0.0-a") },
-            { Version.of("0.0.0-a"), Version.of("0.0.0-b") },
+            { Version.parse("0.0.0-0"), Version.parse("0.0.0") },
+            { Version.parse("0.0.0-1"), Version.parse("0.0.0-2") },
+            { Version.parse("0.0.0-3"), Version.parse("0.0.0-a") },
+            { Version.parse("0.0.0-a"), Version.parse("0.0.0-b") },
 
-            { Version.of("0.0.0-a.1"), Version.of("0.0.0-a.b.c") },
-            { Version.of("0.0.0-1.2"), Version.of("0.0.0-1.2.b") },
+            { Version.parse("0.0.0-a.1"), Version.parse("0.0.0-a.b.c") },
+            { Version.parse("0.0.0-1.2"), Version.parse("0.0.0-1.2.b") },
 
-            { Version.of("0.0.0-beta"), Version.of("0.0.0-rc") },
-            { Version.of("0.0.0-alpha"), Version.of("0.0.0-beta") },
+            { Version.parse("0.0.0-beta"), Version.parse("0.0.0-rc") },
+            { Version.parse("0.0.0-alpha"), Version.parse("0.0.0-beta") },
 
-            { Version.of("1.0.0-rc.1"), Version.of("1.0.0") },
-            { Version.of("1.0.0-beta.11"), Version.of("1.0.0-rc.1") },
-            { Version.of("1.0.0-beta.2"), Version.of("1.0.0-beta.11") },
-            { Version.of("1.0.0-alpha.beta"), Version.of("1.0.0-beta.2") },
-            { Version.of("1.0.0-alpha.1"), Version.of("1.0.0-alpha.beta") },
+            { Version.parse("1.0.0-rc.1"), Version.parse("1.0.0") },
+            { Version.parse("1.0.0-beta.11"), Version.parse("1.0.0-rc.1") },
+            { Version.parse("1.0.0-beta.2"), Version.parse("1.0.0-beta.11") },
+            { Version.parse("1.0.0-alpha.beta"), Version.parse("1.0.0-beta.2") },
+            { Version.parse("1.0.0-alpha.1"), Version.parse("1.0.0-alpha.beta") },
         };
     }
 

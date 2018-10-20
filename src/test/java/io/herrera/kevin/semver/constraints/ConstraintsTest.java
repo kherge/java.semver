@@ -35,14 +35,14 @@ public class ConstraintsTest {
     @Test
     public void aliasTest() throws Exception {
         Constraint constraint = or(
-            and(gte(Version.of("1.0.0")), lt(Version.of("2.0.0")), ne(Version.of("1.2.3"))),
-            and(gt(Version.of("2.0.0")), lte(Version.of("2.1.0"))),
-            eq(Version.of("9.9.9"))
+            and(gte(Version.parse("1.0.0")), lt(Version.parse("2.0.0")), ne(Version.parse("1.2.3"))),
+            and(gt(Version.parse("2.0.0")), lte(Version.parse("2.1.0"))),
+            eq(Version.parse("9.9.9"))
         );
 
-        assertFalse(constraint.apply(Version.of("1.2.3")));
-        assertTrue(constraint.apply(Version.of("1.5.0")));
-        assertTrue(constraint.apply(Version.of("2.0.10")));
-        assertTrue(constraint.apply(Version.of("9.9.9")));
+        assertFalse(constraint.apply(Version.parse("1.2.3")));
+        assertTrue(constraint.apply(Version.parse("1.5.0")));
+        assertTrue(constraint.apply(Version.parse("2.0.10")));
+        assertTrue(constraint.apply(Version.parse("9.9.9")));
     }
 }

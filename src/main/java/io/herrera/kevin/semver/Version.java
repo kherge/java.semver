@@ -295,7 +295,7 @@ final public class Version {
      *
      * @throws InvalidVersionException If the string is not a valid semantic version number.
      */
-    public static Version of(String string) throws InvalidVersionException {
+    public static Version parse(String string) throws InvalidVersionException {
         Objects.requireNonNull(string, "The string representation is required.");
 
         if (!VALIDATOR.matcher(string).matches()) {
