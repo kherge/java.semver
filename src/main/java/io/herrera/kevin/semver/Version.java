@@ -518,7 +518,7 @@ final public class Version {
             );
         }
 
-        String metadata[];
+        String[] metadata;
 
         if (string.contains("+")) {
             metadata = string.split("\\+", 2);
