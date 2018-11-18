@@ -1,5 +1,6 @@
 // Register the Gradle plugins.
 plugins {
+    id 'checkstyle'
     id 'jacoco'
     id 'java'
     id 'java-library'
@@ -40,6 +41,16 @@ dependencies {
     testCompile('org.mockito:mockito-core:2.23.0')
 }
 
+// Configure the Checkstyle plugin.
+checkstyle {
+
+    // Set the path to the configuration file.
+    configFile = file('config/checkstyle.xml')
+
+    // Use a more recent version of Checkstyle.
+    toolVersion = '8.14'
+}
+
 // Configure the JaCoCo tool.
 jacoco {
 
@@ -68,6 +79,19 @@ sonarqube {
         property 'sonar.organization', 'kherge-github'
         property 'sonar.host.url', 'https://sonarcloud.io'
         property 'sonar.login', System.getenv('SONAR_TOKEN')
+    }
+}
+
+// Configure all Checkstyle tasks.
+tasks.withType(Checkstyle) {
+
+    // Disable dumping output to console.
+    logging.setLevel(LogLevel.ERROR)
+
+    // Write reports as HTML.
+    reports {
+        html.enabled = true
+        xml.enabled = true
     }
 }
 
