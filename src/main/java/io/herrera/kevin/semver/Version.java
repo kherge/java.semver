@@ -134,7 +134,7 @@ public final class Version {
     }
 
     /**
-     * Sets the information for the new representation using the string representation..
+     * Sets the information for the new representation using the string representation.s
      *
      * @param string The string representation.
      *
@@ -270,7 +270,12 @@ public final class Version {
     }
 
     /**
-     * Increments the major version number by 1 (one) and returns a new instance.
+     * Increments the major version number by 1 (one), clearing all other values, and returns a new instance.
+     *
+     * <p>
+     * When the major version number is incremented, the minor and patch version numbers are reset to 0 (zero), and
+     * the pre-release and build metadata are cleared.
+     * </p>
      *
      * @return The new instance.
      */
@@ -280,7 +285,12 @@ public final class Version {
     }
 
     /**
-     * Increments the major version number by a given amount and returns a new instance.
+     * Increments the major version number by a given amount, clearing all other values,s and returns a new instance.
+     *
+     * <p>
+     * When the major version number is incremented, the minor and patch version numbers are reset to 0 (zero), and
+     * the pre-release and build metadata are cleared.
+     * </p>
      *
      * @return The new instance.
      *
@@ -291,7 +301,12 @@ public final class Version {
     }
 
     /**
-     * Increments the minor version number by 1 (one) and returns a new instance.
+     * Increments the minor version number by 1 (one), clearing lesser values, and returns a new instance.
+     *
+     * <p>
+     * When the minor version number is incremented, the patch version number is reset to 0 (zero), and the pre-release
+     * and build metadata are cleared.
+     * </p>
      *
      * @return The new instance.
      */
@@ -301,7 +316,12 @@ public final class Version {
     }
 
     /**
-     * Increments the minor version number by a given amount and returns a new instance.
+     * Increments the minor version number by a given amount, clearing lesser values, and returns a new instance.
+     *
+     * <p>
+     * When the minor version number is incremented, the patch version number is reset to 0 (zero), and the pre-release
+     * and build metadata are cleared.
+     * </p>
      *
      * @return The new instance.
      *
@@ -312,7 +332,11 @@ public final class Version {
     }
 
     /**
-     * Increments the patch version number by 1 (one) and returns a new instance.
+     * Increments the patch version number by 1 (one), clearing all metadata, and returns a new instance.
+     *
+     * <p>
+     * When the patch version number is incremented, the pre-release and build metadata are cleared.
+     * </p>
      *
      * @return The new instance.
      */
@@ -322,7 +346,11 @@ public final class Version {
     }
 
     /**
-     * Increments the patch version number by a given amount and returns a new instance.
+     * Increments the patch version number by a given amount, clearing all metadata, and returns a new instance.
+     *
+     * <p>
+     * When the patch version number is incremented, the pre-release and build metadata are cleared.
+     * </p>
      *
      * @return The new instance.
      *
