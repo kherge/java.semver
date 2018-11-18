@@ -225,6 +225,48 @@ public class VersionTest {
     }
 
     /**
+     * Verify that the major version number is set.
+     */
+    @Test
+    public void setMajorTest() throws Exception {
+        Version changed = version.setMajor(9);
+
+        assertEquals(9, changed.getMajor());
+        assertEquals(version.getMinor(), changed.getMinor());
+        assertEquals(version.getPatch(), changed.getPatch());
+        assertEquals(version.getPreRelease(), changed.getPreRelease());
+        assertEquals(version.getBuild(), changed.getBuild());
+    }
+
+    /**
+     * Verify that the minor version number is set.
+     */
+    @Test
+    public void setMinorTest() throws Exception {
+        Version changed = version.setMinor(9);
+
+        assertEquals(version.getMajor(), changed.getMajor());
+        assertEquals(9, changed.getMinor());
+        assertEquals(version.getPatch(), changed.getPatch());
+        assertEquals(version.getPreRelease(), changed.getPreRelease());
+        assertEquals(version.getBuild(), changed.getBuild());
+    }
+
+    /**
+     * Verify that the patch version number is set.
+     */
+    @Test
+    public void setPatchTest() throws Exception {
+        Version changed = version.setPatch(9);
+
+        assertEquals(version.getMajor(), changed.getMajor());
+        assertEquals(version.getMinor(), changed.getMinor());
+        assertEquals(9, changed.getPatch());
+        assertEquals(version.getPreRelease(), changed.getPreRelease());
+        assertEquals(version.getBuild(), changed.getBuild());
+    }
+
+    /**
      * Verify that the pre-release metadata is set.
      */
     @Test
