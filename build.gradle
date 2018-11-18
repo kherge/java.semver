@@ -4,6 +4,10 @@ plugins {
     id 'java'
     id 'java-library'
 
+    // Use Lombok.
+    // https://github.com/franzbecker/gradle-lombok
+    id 'io.franzbecker.gradle-lombok' version '1.14'
+
     // Use SonarQube.
     // https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle
     id 'org.sonarqube' version '2.6'
@@ -48,6 +52,13 @@ jacocoTestReport {
 
     // Require that tests be performed first.
     dependsOn 'test'
+}
+
+// Configure the Lombok plugin.
+lombok {
+
+    // Use a more recent version of Lombok.
+    version = '1.18.4'
 }
 
 // Use SonarQube to analyze the code.
