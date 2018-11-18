@@ -7,4 +7,8 @@ public class InvalidVersionException extends VersionException {
     public InvalidVersionException(String message) {
         super(message);
     }
+
+    public InvalidVersionException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

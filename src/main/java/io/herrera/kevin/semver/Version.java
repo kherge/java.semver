@@ -1,6 +1,7 @@
 package io.herrera.kevin.semver;
 
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
@@ -145,9 +146,9 @@ public final class Version {
 
         String[] numbers = string.split("\\.");
 
-        major = Integer.parseInt(numbers[0]);
-        minor = Integer.parseInt(numbers[1]);
-        patch = Integer.parseInt(numbers[2]);
+        major = parseInt("major", numbers[0]);
+        minor = parseInt("minor", numbers[1]);
+        patch = parseInt("patch", numbers[2]);
     }
 
     /**
@@ -508,6 +509,27 @@ public final class Version {
         }
 
         return EQUAL;
+    }
+
+    /**
+     * Parses a string integer into a <code>Integer</code>.
+     *
+     * @param position  The position of the integer in the version number.
+     * @param stringInt The string integer to parse.
+     *
+     * @return The integer.
+     *
+     * @throws InvalidVersionException If the string integer could not be parsed.
+     */
+    private Integer parseInt(String position, String stringInt) throws InvalidVersionException {
+        try {
+            return Integer.parseInt(stringInt);
+        } catch (NumberFormatException cause) {
+            throw new InvalidVersionException(
+                String.format("The %s version number \"%s\" could not be parsed as an integer.", position, stringInt),
+                cause
+            );
+        }
     }
 
     /**
