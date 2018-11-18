@@ -295,6 +295,8 @@ public final class Version {
      * the pre-release and build metadata are cleared.
      * </p>
      *
+     * @param amount The amount to increment by.
+     *
      * @return The new instance.
      *
      * @throws InvalidVersionException If the resulting version number is not valid.
@@ -326,6 +328,8 @@ public final class Version {
      * and build metadata are cleared.
      * </p>
      *
+     * @param amount The amount to increment by.
+     *
      * @return The new instance.
      *
      * @throws InvalidVersionException If the resulting version number is not valid.
@@ -354,6 +358,8 @@ public final class Version {
      * <p>
      * When the patch version number is incremented, the pre-release and build metadata are cleared.
      * </p>
+     *
+     * @param amount The amount to increment by.
      *
      * @return The new instance.
      *
