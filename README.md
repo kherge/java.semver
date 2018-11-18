@@ -47,15 +47,15 @@ class Example {
         Version version = new Version(1, 2, 3);
         
         // Create a version number using numbers and pre-release metadata.
-        Version version = new Version(1, 2, 3, Arrays.asList("alpha", "1"));
+        Version version = new Version(1, 2, 3, new String[] {"alpha", "1"});
         
         // Create a version number using numbers, pre-release, and build metadata.
         Version version = new Version(
             1,
             2,
             3,
-            Arrays.asList("alpha", "1"),
-            Arrays.asList("20181020", "123")
+            new String[] {"alpha", "1"},
+            new String[] {"20181020", "123"}
         );
         
         // Create a version number using the default version number (0.0.0).
@@ -74,8 +74,8 @@ class Example {
         int major = version.getMajor();
         int minor = version.getMinor();
         int patch = version.getPatch();
-        List<String> preRelease = version.getPreRelease();
-        List<String> build = version.getBuild();
+        String[] preRelease = version.getPreRelease();
+        String[] build = version.getBuild();
         
         // Set version information.
         Version changed = version
@@ -113,6 +113,16 @@ class Example {
         }
         
         if (version.isLessThan(another)) {
+            // ...
+        }
+        
+        // Perform stability checks.
+        
+        if (version.isPreRelease()) {
+            // ...
+        }
+        
+        if (version.isStable()) {
             // ...
         }
         
