@@ -47,7 +47,10 @@ public final class Version {
     /**
      * Validates a string as a semantic version number.
      */
-    private static final Pattern STRING_VALIDATOR = Pattern.compile("^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(\\.(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\\+[0-9a-zA-Z-]+(\\.[0-9a-zA-Z-]+)*)?$");
+    private static final Pattern STRING_VALIDATOR = Pattern.compile(
+        "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(\\.(0|[1-9]\\d*"
+            + "|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\\+[0-9a-zA-Z-]+(\\.[0-9a-zA-Z-]+)*)?$"
+    );
 
     /**
      * The build metadata.
@@ -420,7 +423,7 @@ public final class Version {
     /**
      * Sets the build metadata and returns a new instance.
      *
-     * @param metadata,... The metadata.
+     * @param metadata The metadata.
      *
      * @return The new instance.
      *
@@ -474,7 +477,7 @@ public final class Version {
     /**
      * Sets the pre-release metadata and returns a new instance.
      *
-     * @param metadata,... The metadata.
+     * @param metadata The metadata.
      *
      * @return The new instance.
      *
@@ -590,7 +593,7 @@ public final class Version {
      *         a greater precedence than the left, <code>-1</code> is returned.
      */
     private int comparePreRelease(String[] left, String[] right) {
-        if (left.length ==0 ) {
+        if (left.length == 0) {
             return (right.length == 0) ? EQUAL : GREATER;
         } else if (right.length == 0) {
             return LESSER;

@@ -52,7 +52,7 @@ abstract class Composite implements Constraint {
     /**
      * Adds a version constraint to the set.
      *
-     * @param constraint,... The constraint to add.
+     * @param constraint The constraint to add.
      *
      * @return A fluent interface.
      */
@@ -80,6 +80,9 @@ abstract class Composite implements Constraint {
 
                 case PASS:
                     return true;
+
+                default:
+                    continue;
             }
         }
 

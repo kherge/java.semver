@@ -11,7 +11,7 @@ public final class Constraints {
     /**
      * Requires that a version match all constraints in a set.
      *
-     * @param constraint,... The constraint to add.
+     * @param constraint The constraint to add.
      *
      * @return The version constraint.
      */
@@ -166,7 +166,7 @@ public final class Constraints {
     /**
      * Requires that a version match any constraint in a set.
      *
-     * @param constraint,... The constraint to add.
+     * @param constraint The constraint to add.
      *
      * @return The version constraint.
      */
