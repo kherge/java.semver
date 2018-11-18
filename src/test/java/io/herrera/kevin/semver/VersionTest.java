@@ -61,8 +61,8 @@ public class VersionTest {
         assertEquals(1, built.getMajor());
         assertEquals(1, built.getMinor());
         assertEquals(1, built.getPatch());
-        assertEquals(Collections.singletonList("beta"), built.getPreRelease());
-        assertEquals(Collections.singletonList("abc"), built.getBuild());
+        assertArrayEquals(new String[] {"beta"}, built.getPreRelease());
+        assertArrayEquals(new String[] {"abc"}, built.getBuild());
     }
 
     /**
@@ -92,7 +92,7 @@ public class VersionTest {
      */
     @Test
     public void hashCodeTest() {
-        Version version = new Version(1, 2, 3, Arrays.asList("alpha", "4"), Arrays.asList("xyz", "5"));
+        Version version = new Version(1, 2, 3, new String[] {"alpha", "4"}, new String[] {"xyz", "5"});
         Version another = new Version(
             version.getMajor(),
             version.getMinor(),
@@ -175,7 +175,7 @@ public class VersionTest {
 
         assertFalse(unstableA.isStable());
 
-        Version unstableB = new Version(1, 0, 0, Collections.singletonList("alpha"));
+        Version unstableB = new Version(1, 0, 0, new String[] {"alpha"});
 
         assertFalse(unstableB.isStable());
 
@@ -205,7 +205,7 @@ public class VersionTest {
         assertEquals(version.getMinor(), changed.getMinor());
         assertEquals(version.getPatch(), changed.getPatch());
         assertEquals(version.getPreRelease(), changed.getPreRelease());
-        assertEquals(Arrays.asList(metadata), changed.getBuild());
+        assertEquals(metadata, changed.getBuild());
     }
 
     /**
@@ -220,7 +220,7 @@ public class VersionTest {
         assertEquals(version.getMajor(), changed.getMajor());
         assertEquals(version.getMinor(), changed.getMinor());
         assertEquals(version.getPatch(), changed.getPatch());
-        assertEquals(Arrays.asList(metadata), changed.getPreRelease());
+        assertEquals(metadata, changed.getPreRelease());
         assertEquals(version.getBuild(), changed.getBuild());
     }
 
@@ -307,6 +307,6 @@ public class VersionTest {
 
     @BeforeAll
     private static void setUp() {
-        version = new Version(1, 2, 3, Arrays.asList("alpha", "123"), Arrays.asList("xyz", "456"));
+        version = new Version(1, 2, 3, new String[] {"alpha", "123"}, new String[] {"xyz", "456"});
     }
 }

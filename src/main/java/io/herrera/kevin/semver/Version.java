@@ -1,8 +1,5 @@
 package io.herrera.kevin.semver;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -10,6 +7,7 @@ import java.util.regex.Pattern;
  * An immutable representation of a semantic version number.
  */
 public final class Version {
+
     /**
      * A default version number (0.0.0) that can be used as a starting point.
      */
@@ -43,7 +41,7 @@ public final class Version {
     /**
      * The build metadata.
      */
-    private List<String> build;
+    private String[] build;
 
     /**
      * The major version number.
@@ -63,7 +61,7 @@ public final class Version {
     /**
      * The pre-release metadata.
      */
-    private List<String> preRelease;
+    private String[] preRelease;
 
     /**
      * Sets the information for the new representation, leaving pre-release and build metadata empty.
@@ -73,7 +71,7 @@ public final class Version {
      * @param patch The patch version number.
      */
     public Version(int major, int minor, int patch) {
-        this(major, minor, patch, Collections.emptyList());
+        this(major, minor, patch, new String[0]);
     }
 
     /**
@@ -84,8 +82,8 @@ public final class Version {
      * @param patch      The patch version number.
      * @param preRelease The pre-release metadata.
      */
-    public Version(int major, int minor, int patch, List<String> preRelease) {
-        this(major, minor, patch, preRelease, Collections.emptyList());
+    public Version(int major, int minor, int patch, String[] preRelease) {
+        this(major, minor, patch, preRelease, new String[0]);
     }
 
     /**
@@ -97,15 +95,15 @@ public final class Version {
      * @param preRelease The pre-release metadata.
      * @param build      The build metadata.
      */
-    public Version(int major, int minor, int patch, List<String> preRelease, List<String> build) {
-        Objects.requireNonNull(build, "The build metadata list is required (even if empty).");
-        Objects.requireNonNull(preRelease, "The pre-release metadata list is required (even if empty).");
+    public Version(int major, int minor, int patch, String[] preRelease, String[] build) {
+        Objects.requireNonNull(build, "The build metadata is required (even if empty).");
+        Objects.requireNonNull(preRelease, "The pre-release metadata is required (even if empty).");
 
-        this.build = Collections.unmodifiableList(build);
+        this.build = build;
         this.major = major;
         this.minor = minor;
         this.patch = patch;
-        this.preRelease = Collections.unmodifiableList(preRelease);
+        this.preRelease = preRelease;
     }
 
     /**
@@ -132,7 +130,7 @@ public final class Version {
      * @return The new instance.
      */
     public Version clearPreRelease() {
-        return new Version(major, minor, patch, Collections.emptyList(), build);
+        return new Version(major, minor, patch, new String[0], build);
     }
 
     /**
@@ -160,7 +158,7 @@ public final class Version {
      *
      * @return The build metadata.
      */
-    public List<String> getBuild() {
+    public String[] getBuild() {
         return build;
     }
 
@@ -196,7 +194,7 @@ public final class Version {
      *
      * @return The pre-release metadata.
      */
-    public List<String> getPreRelease() {
+    public String[] getPreRelease() {
         return preRelease;
     }
 
@@ -304,20 +302,7 @@ public final class Version {
      * @return Returns <code>true</code> if it is, or <code>false</code> if not.
      */
     public boolean isStable() {
-        return (major > 0) && preRelease.isEmpty();
-    }
-
-    /**
-     * Sets the build metadata and returns a new instance.
-     *
-     * @param metadata The metadata.
-     *
-     * @return The new instance.
-     */
-    public Version setBuild(List<String> metadata) {
-        Objects.requireNonNull(metadata, "The build metadata list is required (even if empty).");
-
-        return new Version(major, minor, patch, preRelease, metadata);
+        return (major > 0) && (preRelease.length == 0);
     }
 
     /**
@@ -328,7 +313,9 @@ public final class Version {
      * @return The new instance.
      */
     public Version setBuild(String... metadata) {
-        return setBuild(Arrays.asList(metadata));
+        Objects.requireNonNull(metadata, "The build metadata is required (even if empty).");
+
+        return new Version(major, minor, patch, preRelease, metadata);
     }
 
     /**
@@ -367,25 +354,14 @@ public final class Version {
     /**
      * Sets the pre-release metadata and returns a new instance.
      *
-     * @param metadata The metadata.
-     *
-     * @return The new instance.
-     */
-    public Version setPreRelease(List<String> metadata) {
-        Objects.requireNonNull(metadata, "The pre-release metadata list is required (even if empty).");
-
-        return new Version(major, minor, patch, metadata, build);
-    }
-
-    /**
-     * Sets the pre-release metadata and returns a new instance.
-     *
      * @param metadata,... The metadata.
      *
      * @return The new instance.
      */
     public Version setPreRelease(String... metadata) {
-        return setPreRelease(Arrays.asList(metadata));
+        Objects.requireNonNull(metadata, "The pre-release metadata is required (even if empty).");
+
+        return new Version(major, minor, patch, metadata, build);
     }
 
     /**
@@ -398,11 +374,11 @@ public final class Version {
 
         builder.append(major).append(".").append(minor).append(".").append(patch);
 
-        if (!preRelease.isEmpty()) {
+        if (preRelease.length > 0) {
             builder.append("-").append(toStringMetadata(preRelease));
         }
 
-        if (!build.isEmpty()) {
+        if (build.length > 0) {
             builder.append("+").append(toStringMetadata(build));
         }
 
@@ -473,26 +449,26 @@ public final class Version {
      *         If both sides have equal precedence, <code>0</code> (zero) is returned. If the right hand side has
      *         a greater precedence than the left, <code>-1</code> is returned.
      */
-    private int comparePreRelease(List<String> left, List<String> right) {
-        if (left.isEmpty()) {
-            return right.isEmpty() ? EQUAL : GREATER;
-        } else if (right.isEmpty()) {
+    private int comparePreRelease(String[] left, String[] right) {
+        if (left.length ==0 ) {
+            return (right.length == 0) ? EQUAL : GREATER;
+        } else if (right.length == 0) {
             return LESSER;
         }
 
-        for (int i = 0; i < left.size(); i++) {
-            if (i > (right.size() - 1)) {
+        for (int i = 0; i < left.length; i++) {
+            if (i > (right.length - 1)) {
                 return GREATER;
             }
 
-            int result = compareMetadata(left.get(i), right.get(i));
+            int result = compareMetadata(left[i], right[i]);
 
             if (result != EQUAL) {
                 return (result > 0) ? GREATER : LESSER;
             }
         }
 
-        if (left.size() < right.size()) {
+        if (left.length < right.length) {
             return LESSER;
         }
 
@@ -524,18 +500,18 @@ public final class Version {
             metadata = string.split("\\+", 2);
             string = metadata[0];
 
-            build = Arrays.asList(metadata[1].split("\\."));
+            build = metadata[1].split("\\.");
         } else {
-            build = Collections.unmodifiableList(Collections.emptyList());
+            build = new String[0];
         }
 
         if (string.contains("-")) {
             metadata = string.split("-", 2);
             string = metadata[0];
 
-            preRelease = Arrays.asList(metadata[1].split("\\."));
+            preRelease = metadata[1].split("\\.");
         } else {
-            preRelease = Collections.unmodifiableList(Collections.emptyList());
+            preRelease = new String[0];
         }
 
         String[] numbers = string.split("\\.");
@@ -552,15 +528,15 @@ public final class Version {
      *
      * @return The string.
      */
-    private String toStringMetadata(List<String> metadata) {
+    private String toStringMetadata(String[] metadata) {
         StringBuilder builder = new StringBuilder();
 
-        for (int i = 0; i < metadata.size(); i++) {
+        for (int i = 0; i < metadata.length; i++) {
             if (i > 0) {
                 builder.append(".");
             }
 
-            builder.append(metadata.get(i));
+            builder.append(metadata[i]);
         }
 
         return builder.toString();
