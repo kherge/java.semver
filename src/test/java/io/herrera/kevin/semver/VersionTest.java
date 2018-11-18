@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -45,6 +46,15 @@ public class VersionTest {
         assertEquals(version.getMinor(), changed.getMinor());
         assertEquals(version.getPatch(), changed.getPatch());
         assertEquals(version.getBuild(), changed.getBuild());
+    }
+
+    /**
+     * Verify that the constructor validates the arguments.
+     */
+    @MethodSource("getInvalidVersions")
+    @ParameterizedTest(name = "constructorValidateArgumentsTest() [{index}] {arguments}")
+    public void constructorValidateArgumentsTest(Executable test) {
+        assertThrows(InvalidVersionException.class, test);
     }
 
     /**
@@ -333,6 +343,24 @@ public class VersionTest {
             { new Version("1.0.0-beta.11"), new Version("1.0.0-beta.2") },
             { new Version("1.0.0-beta.2"), new Version("1.0.0-alpha.beta") },
             { new Version("1.0.0-alpha.beta"), new Version("1.0.0-alpha.1") },
+        };
+    }
+
+    /**
+     * Generates lambdas for <code>constructorValidateArgumentsTest()</code> arguments.
+     *
+     * @return The arguments.
+     */
+    private static Object[][] getInvalidVersions() throws Exception {
+        return new Executable[][] {
+
+            { () -> new Version(-1, 0, 0) },
+            { () -> new Version(0, -1, 0) },
+            { () -> new Version(0, 0, -1) },
+
+            { () -> new Version(0, 0, 0, new String[] {""}) },
+            { () -> new Version(0, 0, 0, new String[] {"01"}) },
+
         };
     }
 

@@ -1,9 +1,8 @@
 package io.herrera.kevin.semver;
 
-import lombok.SneakyThrows;
-
 import java.util.Objects;
 import java.util.regex.Pattern;
+import lombok.SneakyThrows;
 
 /**
  * An immutable representation of a semantic version number.
@@ -36,9 +35,19 @@ public final class Version {
     private static final int LESSER = -1;
 
     /**
+     * Validates a build metadata identifier.
+     */
+    private static final Pattern BUILD_VALIDATOR = Pattern.compile("^[0-9A-Za-z-]+$");
+
+    /**
+     * Validates a pre-release metadata identifier.
+     */
+    private static final Pattern PRE_RELEASE_VALIDATOR = Pattern.compile("^(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)$");
+
+    /**
      * Validates a string as a semantic version number.
      */
-    private static final Pattern VALIDATOR = Pattern.compile("^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?(?:\\+([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?$");
+    private static final Pattern STRING_VALIDATOR = Pattern.compile("^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(\\.(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\\+[0-9a-zA-Z-]+(\\.[0-9a-zA-Z-]+)*)?$");
 
     /**
      * The build metadata.
@@ -117,11 +126,11 @@ public final class Version {
         Objects.requireNonNull(build, "The build metadata is required (even if empty).");
         Objects.requireNonNull(preRelease, "The pre-release metadata is required (even if empty).");
 
-        this.build = build;
+        this.build = isValidIdentifiers("build", BUILD_VALIDATOR, build);
         this.major = atLeastZero("major", major);
         this.minor = atLeastZero("minor", minor);
         this.patch = atLeastZero("patch", patch);
-        this.preRelease = preRelease;
+        this.preRelease = isValidIdentifiers("pre-release", PRE_RELEASE_VALIDATOR, preRelease);
     }
 
     /**
@@ -134,7 +143,7 @@ public final class Version {
     public Version(String string) throws InvalidVersionException {
         Objects.requireNonNull(string, "The string representation is required.");
 
-        if (!VALIDATOR.matcher(string).matches()) {
+        if (!STRING_VALIDATOR.matcher(string).matches()) {
             throw new InvalidVersionException(
                 String.format(
                     "The string \"%s\" is not a valid semantic version number.",
@@ -576,6 +585,47 @@ public final class Version {
         }
 
         return EQUAL;
+    }
+
+    /**
+     * Checks if a metadata identifier is valid.
+     *
+     * @param group      The name of the metadata group.
+     * @param pattern    The identifier pattern to validate against.
+     * @param identifier The metadata identifier to validate.
+     *
+     * @return The valid identifier.
+     *
+     * @throws InvalidVersionException If the identifier is not valid.
+     */
+    private String isValidIdentifier(String group, Pattern pattern, String identifier) throws InvalidVersionException {
+        if (!pattern.matcher(identifier).matches()) {
+            throw new InvalidVersionException(
+                String.format("The %s metadata identifier \"%s\" is not valid.", group, identifier)
+            );
+        }
+
+        return identifier;
+    }
+
+    /**
+     * Checks if an array of metadata identifiers are valid.
+     *
+     * @param group       The name of the metadata group.
+     * @param pattern     The identifier pattern to validate against.
+     * @param identifiers The metadata identifiers to validate.
+     *
+     * @return The valid identifiers.
+     *
+     * @throws InvalidVersionException If the identifiers are not valid.
+     */
+    private String[] isValidIdentifiers(String group, Pattern pattern, String[] identifiers)
+        throws InvalidVersionException {
+        for (String identifier : identifiers) {
+            isValidIdentifier(group, pattern, identifier);
+        }
+
+        return identifiers;
     }
 
     /**
