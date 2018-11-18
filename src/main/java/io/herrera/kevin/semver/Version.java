@@ -21,11 +21,6 @@ public final class Version {
     public static final Version SPEC;
 
     /**
-     * Validates a string as an integer.
-     */
-    private static final Pattern INTEGER = Pattern.compile("^\\d+$");
-
-    /**
      * Indicates that a version has equivalent precedence.
      */
     private static final int EQUAL = 0;
@@ -534,9 +529,9 @@ public final class Version {
     private int compareMetadata(String left, String right) {
         int result;
 
-        if (INTEGER.matcher(left).matches() && INTEGER.matcher(right).matches()) {
+        try {
             result = Integer.parseInt(left) - Integer.parseInt(right);
-        } else {
+        } catch (NumberFormatException exception) {
             result = left.compareTo(right);
         }
 
