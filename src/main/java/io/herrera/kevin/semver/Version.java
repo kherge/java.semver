@@ -283,7 +283,7 @@ public final class Version {
      * @throws InvalidVersionException If the resulting version number is not valid.
      */
     public Version incrementMajor(int amount) throws InvalidVersionException {
-        return setMajor(major + amount);
+        return new Version(major + amount, 0, 0, new String[0], new String[0]);
     }
 
     /**
@@ -304,7 +304,7 @@ public final class Version {
      * @throws InvalidVersionException If the resulting version number is not valid.
      */
     public Version incrementMinor(int amount) throws InvalidVersionException {
-        return setMinor(minor + amount);
+        return new Version(major, minor + amount, 0, new String[0], new String[0]);
     }
 
     /**
@@ -325,7 +325,7 @@ public final class Version {
      * @throws InvalidVersionException If the resulting version number is not valid.
      */
     public Version incrementPatch(int amount) throws InvalidVersionException {
-        return setPatch(patch + amount);
+        return new Version(major, minor, patch + amount, new String[0], new String[0]);
     }
 
     /**

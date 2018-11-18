@@ -110,10 +110,10 @@ public class VersionTest {
         Version changed = version.incrementMajor();
 
         assertEquals(version.getMajor() + 1, changed.getMajor());
-        assertEquals(version.getMinor(), changed.getMinor());
-        assertEquals(version.getPatch(), changed.getPatch());
-        assertEquals(version.getPreRelease(), changed.getPreRelease());
-        assertEquals(version.getBuild(), changed.getBuild());
+        assertEquals(0, changed.getMinor());
+        assertEquals(0, changed.getPatch());
+        assertArrayEquals(new String[0], changed.getPreRelease());
+        assertArrayEquals(new String[0], changed.getBuild());
     }
 
     /**
@@ -125,9 +125,9 @@ public class VersionTest {
 
         assertEquals(version.getMajor(), changed.getMajor());
         assertEquals(version.getMinor() + 1, changed.getMinor());
-        assertEquals(version.getPatch(), changed.getPatch());
-        assertEquals(version.getPreRelease(), changed.getPreRelease());
-        assertEquals(version.getBuild(), changed.getBuild());
+        assertEquals(0, changed.getPatch());
+        assertArrayEquals(new String[0], changed.getPreRelease());
+        assertArrayEquals(new String[0], changed.getBuild());
     }
 
     /**
@@ -140,8 +140,8 @@ public class VersionTest {
         assertEquals(version.getMajor(), changed.getMajor());
         assertEquals(version.getMinor(), changed.getMinor());
         assertEquals(version.getPatch() + 1, changed.getPatch());
-        assertEquals(version.getPreRelease(), changed.getPreRelease());
-        assertEquals(version.getBuild(), changed.getBuild());
+        assertArrayEquals(new String[0], changed.getPreRelease());
+        assertArrayEquals(new String[0], changed.getBuild());
     }
 
     /**
