@@ -368,6 +368,15 @@ public final class Version {
     }
 
     /**
+     * Checks if the version number is a pre-release version number.
+     *
+     * @return Returns <code>true</code> if it is, or <code>false</code> if not.
+     */
+    public boolean isPreRelease() {
+        return (major == 0) || (preRelease.length > 0);
+    }
+
+    /**
      * Checks if the version number is a stable version number.
      *
      * @return Returns <code>true</code> if it is, or <code>false</code> if not.

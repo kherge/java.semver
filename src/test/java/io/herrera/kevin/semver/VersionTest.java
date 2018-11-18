@@ -165,6 +165,24 @@ public class VersionTest {
     }
 
     /**
+     * Verify that a version number is checked for pre-release status.
+     */
+    @Test
+    public void isPreReleaseTest() throws Exception {
+        Version unstableA = new Version(0, 0, 1);
+
+        assertTrue(unstableA.isPreRelease());
+
+        Version unstableB = new Version(1, 0, 0, new String[] {"alpha"});
+
+        assertTrue(unstableB.isPreRelease());
+
+        Version stable = new Version(1, 0, 0);
+
+        assertFalse(stable.isPreRelease());
+    }
+
+    /**
      * Verify that a version number is checked for stability.
      */
     @Test
