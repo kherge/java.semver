@@ -79,6 +79,7 @@ sonarqube {
         property 'sonar.organization', 'kherge-github'
         property 'sonar.host.url', 'https://sonarcloud.io'
         property 'sonar.login', System.getenv('SONAR_TOKEN')
+        property 'sonar.java.checkstyle.reportPaths', './build/reports/checkstyle/main.xml'
     }
 }
 

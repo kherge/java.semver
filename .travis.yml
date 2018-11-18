@@ -16,6 +16,6 @@ jdk:
 
 language: java
 
-script: ./gradlew jacocoTestReport
+script: ./gradlew jacocoTestReport checkstyleMain
 
 sudo: false
