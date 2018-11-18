@@ -16,6 +16,11 @@ public final class Version {
     public static final Version DEFAULT;
 
     /**
+     * The version of the specification that is implemented.
+     */
+    public static final Version SPEC;
+
+    /**
      * Validates a string as an integer.
      */
     private static final Pattern INTEGER = Pattern.compile("^\\d+$");
@@ -68,6 +73,7 @@ public final class Version {
     static {
         try {
             DEFAULT = new Version(0, 0, 0);
+            SPEC = new Version(2, 0, 0);
         } catch (InvalidVersionException exception) {
             throw new RuntimeException(exception);
         }
