@@ -41,27 +41,27 @@ public final class Version {
     /**
      * The build metadata.
      */
-    private String[] build;
+    private final String[] build;
 
     /**
      * The major version number.
      */
-    private int major;
+    private final int major;
 
     /**
      * The minor version number.
      */
-    private int minor;
+    private final int minor;
 
     /**
      * The patch version number.
      */
-    private int patch;
+    private final int patch;
 
     /**
      * The pre-release metadata.
      */
-    private String[] preRelease;
+    private final String[] preRelease;
 
     /**
      * Sets the information for the new representation, leaving pre-release and build metadata empty.
@@ -112,7 +112,42 @@ public final class Version {
      * @param string The string representation.
      */
     public Version(String string) throws InvalidVersionException {
-        parse(string);
+        Objects.requireNonNull(string, "The string representation is required.");
+
+        if (!VALIDATOR.matcher(string).matches()) {
+            throw new InvalidVersionException(
+                String.format(
+                    "The string \"%s\" is not a valid semantic version number.",
+                    string
+                )
+            );
+        }
+
+        String[] metadata;
+
+        if (string.contains("+")) {
+            metadata = string.split("\\+", 2);
+            string = metadata[0];
+
+            build = metadata[1].split("\\.");
+        } else {
+            build = new String[0];
+        }
+
+        if (string.contains("-")) {
+            metadata = string.split("-", 2);
+            string = metadata[0];
+
+            preRelease = metadata[1].split("\\.");
+        } else {
+            preRelease = new String[0];
+        }
+
+        String[] numbers = string.split("\\.");
+
+        major = Integer.parseInt(numbers[0]);
+        minor = Integer.parseInt(numbers[1]);
+        patch = Integer.parseInt(numbers[2]);
     }
 
     /**
@@ -473,52 +508,6 @@ public final class Version {
         }
 
         return EQUAL;
-    }
-
-    /**
-     * Parses a valid semantic version number into the current instance.
-     *
-     * @param string The string representation.
-     *
-     * @throws InvalidVersionException If the string is not a valid semantic version number.
-     */
-    private void parse(String string) throws InvalidVersionException {
-        Objects.requireNonNull(string, "The string representation is required.");
-
-        if (!VALIDATOR.matcher(string).matches()) {
-            throw new InvalidVersionException(
-                String.format(
-                    "The string \"%s\" is not a valid semantic version number.",
-                    string
-                )
-            );
-        }
-
-        String[] metadata;
-
-        if (string.contains("+")) {
-            metadata = string.split("\\+", 2);
-            string = metadata[0];
-
-            build = metadata[1].split("\\.");
-        } else {
-            build = new String[0];
-        }
-
-        if (string.contains("-")) {
-            metadata = string.split("-", 2);
-            string = metadata[0];
-
-            preRelease = metadata[1].split("\\.");
-        } else {
-            preRelease = new String[0];
-        }
-
-        String[] numbers = string.split("\\.");
-
-        major = Integer.parseInt(numbers[0]);
-        minor = Integer.parseInt(numbers[1]);
-        patch = Integer.parseInt(numbers[2]);
     }
 
     /**
