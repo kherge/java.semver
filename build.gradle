@@ -5,6 +5,10 @@ plugins {
     id 'java'
     id 'java-library'
 
+    // Use Palantir's Git version plugin.
+    // https://github.com/palantir/gradle-git-version
+    id 'com.palantir.git-version' version '0.12.0-rc2'
+
     // Use Lombok.
     // https://github.com/franzbecker/gradle-lombok
     id 'io.franzbecker.gradle-lombok' version '1.14'
@@ -17,7 +21,7 @@ plugins {
 // Set the library information.
 group 'io.herrera.kevin'
 
-version '0.0.0'
+version gitVersion()
 
 // Support Java 8.
 sourceCompatibility = 1.8
