@@ -1,7 +1,8 @@
 package io.herrera.kevin.semver;
 
+import lombok.SneakyThrows;
+
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
@@ -12,7 +13,7 @@ public final class Version {
     /**
      * A default version number (0.0.0) that can be used as a starting point.
      */
-    public static final Version DEFAULT = new Version(0, 0, 0);
+    public static final Version DEFAULT;
 
     /**
      * Validates a string as an integer.
@@ -64,14 +65,24 @@ public final class Version {
      */
     private final String[] preRelease;
 
+    static {
+        try {
+            DEFAULT = new Version(0, 0, 0);
+        } catch (InvalidVersionException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
+
     /**
      * Sets the information for the new representation, leaving pre-release and build metadata empty.
      *
      * @param major The major version number.
      * @param minor The minor version number.
      * @param patch The patch version number.
+     *
+     * @throws InvalidVersionException If the given version information is not valid.
      */
-    public Version(int major, int minor, int patch) {
+    public Version(int major, int minor, int patch) throws InvalidVersionException {
         this(major, minor, patch, new String[0]);
     }
 
@@ -82,8 +93,10 @@ public final class Version {
      * @param minor      The minor version number.
      * @param patch      The patch version number.
      * @param preRelease The pre-release metadata.
+     *
+     * @throws InvalidVersionException If the given version information is not valid.
      */
-    public Version(int major, int minor, int patch, String[] preRelease) {
+    public Version(int major, int minor, int patch, String[] preRelease) throws InvalidVersionException {
         this(major, minor, patch, preRelease, new String[0]);
     }
 
@@ -95,15 +108,18 @@ public final class Version {
      * @param patch      The patch version number.
      * @param preRelease The pre-release metadata.
      * @param build      The build metadata.
+     *
+     * @throws InvalidVersionException If the given version information is not valid.
      */
-    public Version(int major, int minor, int patch, String[] preRelease, String[] build) {
+    public Version(int major, int minor, int patch, String[] preRelease, String[] build)
+        throws InvalidVersionException {
         Objects.requireNonNull(build, "The build metadata is required (even if empty).");
         Objects.requireNonNull(preRelease, "The pre-release metadata is required (even if empty).");
 
         this.build = build;
-        this.major = major;
-        this.minor = minor;
-        this.patch = patch;
+        this.major = atLeastZero("major", major);
+        this.minor = atLeastZero("minor", minor);
+        this.patch = atLeastZero("patch", patch);
         this.preRelease = preRelease;
     }
 
@@ -111,6 +127,8 @@ public final class Version {
      * Sets the information for the new representation using the string representation..
      *
      * @param string The string representation.
+     *
+     * @throws InvalidVersionException If the given version information is not valid.
      */
     public Version(String string) throws InvalidVersionException {
         Objects.requireNonNull(string, "The string representation is required.");
@@ -156,6 +174,7 @@ public final class Version {
      *
      * @return The new instance.
      */
+    @SneakyThrows(InvalidVersionException.class)
     public Version clearBuild() {
         return new Version(major, minor, patch, preRelease);
     }
@@ -165,6 +184,7 @@ public final class Version {
      *
      * @return The new instance.
      */
+    @SneakyThrows(InvalidVersionException.class)
     public Version clearPreRelease() {
         return new Version(major, minor, patch, new String[0], build);
     }
@@ -244,6 +264,7 @@ public final class Version {
      *
      * @return The new instance.
      */
+    @SneakyThrows(InvalidVersionException.class)
     public Version incrementMajor() {
         return incrementMajor(1);
     }
@@ -252,8 +273,10 @@ public final class Version {
      * Increments the major version number by a given amount and returns a new instance.
      *
      * @return The new instance.
+     *
+     * @throws InvalidVersionException If the resulting version number is not valid.
      */
-    public Version incrementMajor(int amount) {
+    public Version incrementMajor(int amount) throws InvalidVersionException {
         return setMajor(major + amount);
     }
 
@@ -262,6 +285,7 @@ public final class Version {
      *
      * @return The new instance.
      */
+    @SneakyThrows(InvalidVersionException.class)
     public Version incrementMinor() {
         return incrementMinor(1);
     }
@@ -270,8 +294,10 @@ public final class Version {
      * Increments the minor version number by a given amount and returns a new instance.
      *
      * @return The new instance.
+     *
+     * @throws InvalidVersionException If the resulting version number is not valid.
      */
-    public Version incrementMinor(int amount) {
+    public Version incrementMinor(int amount) throws InvalidVersionException {
         return setMinor(minor + amount);
     }
 
@@ -280,6 +306,7 @@ public final class Version {
      *
      * @return The new instance.
      */
+    @SneakyThrows(InvalidVersionException.class)
     public Version incrementPatch() {
         return incrementPatch(1);
     }
@@ -288,8 +315,10 @@ public final class Version {
      * Increments the patch version number by a given amount and returns a new instance.
      *
      * @return The new instance.
+     *
+     * @throws InvalidVersionException If the resulting version number is not valid.
      */
-    public Version incrementPatch(int amount) {
+    public Version incrementPatch(int amount) throws InvalidVersionException {
         return setPatch(patch + amount);
     }
 
@@ -347,8 +376,10 @@ public final class Version {
      * @param metadata,... The metadata.
      *
      * @return The new instance.
+     *
+     * @throws InvalidVersionException If the metadata is not valid.
      */
-    public Version setBuild(String... metadata) {
+    public Version setBuild(String... metadata) throws InvalidVersionException {
         Objects.requireNonNull(metadata, "The build metadata is required (even if empty).");
 
         return new Version(major, minor, patch, preRelease, metadata);
@@ -360,8 +391,10 @@ public final class Version {
      * @param number The number.
      *
      * @return The new instance.
+     *
+     * @throws InvalidVersionException If the version number is not valid.
      */
-    public Version setMajor(int number) {
+    public Version setMajor(int number) throws InvalidVersionException {
         return new Version(number, minor, patch, preRelease, build);
     }
 
@@ -371,8 +404,10 @@ public final class Version {
      * @param number The number.
      *
      * @return The new instance.
+     *
+     * @throws InvalidVersionException If the version number is not valid.
      */
-    public Version setMinor(int number) {
+    public Version setMinor(int number) throws InvalidVersionException {
         return new Version(major, number, patch, preRelease, build);
     }
 
@@ -382,8 +417,10 @@ public final class Version {
      * @param number The number.
      *
      * @return The new instance.
+     *
+     * @throws InvalidVersionException If the version number is not valid.
      */
-    public Version setPatch(int number) {
+    public Version setPatch(int number) throws InvalidVersionException {
         return new Version(major, minor, number, preRelease, build);
     }
 
@@ -393,8 +430,10 @@ public final class Version {
      * @param metadata,... The metadata.
      *
      * @return The new instance.
+     *
+     * @throws InvalidVersionException If the metadata is not valid.
      */
-    public Version setPreRelease(String... metadata) {
+    public Version setPreRelease(String... metadata) throws InvalidVersionException {
         Objects.requireNonNull(metadata, "The pre-release metadata is required (even if empty).");
 
         return new Version(major, minor, patch, metadata, build);
@@ -419,6 +458,24 @@ public final class Version {
         }
 
         return builder.toString();
+    }
+
+    /**
+     * Requires that a version number be greater than or equal to 0 (zero).
+     *
+     * @param position The position of the integer in the version number.
+     * @param number   The version number.
+     *
+     * @throws InvalidVersionException If the number is not at least 0 (zero).
+     */
+    private int atLeastZero(String position, int number) throws InvalidVersionException {
+        if (number < 0) {
+            throw new InvalidVersionException(
+                String.format("The %s version number must be at least 0 (zero).", position)
+            );
+        }
+
+        return number;
     }
 
     /**

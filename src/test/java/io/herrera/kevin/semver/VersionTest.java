@@ -2,8 +2,6 @@ package io.herrera.kevin.semver;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
-import java.util.Collections;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -49,7 +47,7 @@ public class VersionTest {
      * Verifies that the default instance can be used as a starting point.
      */
     @Test
-    public void defaultTest() {
+    public void defaultTest() throws Exception {
         Version built = Version
             .DEFAULT
             .incrementMajor()
@@ -69,7 +67,7 @@ public class VersionTest {
      * Tests the remaining conditions in <code>equals()</code>.
      */
     @Test
-    public void equalsNotTest() {
+    public void equalsNotTest() throws Exception {
         assertFalse(version.equals(null));
         assertFalse(version.equals(this));
 
@@ -91,7 +89,7 @@ public class VersionTest {
      * Verify that hash codes are generated properly.
      */
     @Test
-    public void hashCodeTest() {
+    public void hashCodeTest() throws Exception {
         Version version = new Version(1, 2, 3, new String[] {"alpha", "4"}, new String[] {"xyz", "5"});
         Version another = new Version(
             version.getMajor(),
@@ -170,7 +168,7 @@ public class VersionTest {
      * Verify that a version number is checked for stability.
      */
     @Test
-    public void isStableTest() {
+    public void isStableTest() throws Exception {
         Version unstableA = new Version(0, 0, 1);
 
         assertFalse(unstableA.isStable());
@@ -196,7 +194,7 @@ public class VersionTest {
      * Verify that the build metadata is set.
      */
     @Test
-    public void setBuildTest() {
+    public void setBuildTest() throws Exception {
         String[] metadata = {"a", "b", "c"};
 
         Version changed = version.setBuild(metadata);
@@ -212,7 +210,7 @@ public class VersionTest {
      * Verify that the pre-release metadata is set.
      */
     @Test
-    public void setPreReleaseTest() {
+    public void setPreReleaseTest() throws Exception {
         String[] metadata = {"a", "b", "c"};
 
         Version changed = version.setPreRelease(metadata);
@@ -306,7 +304,7 @@ public class VersionTest {
     }
 
     @BeforeAll
-    private static void setUp() {
+    private static void setUp() throws Exception {
         version = new Version(1, 2, 3, new String[] {"alpha", "123"}, new String[] {"xyz", "456"});
     }
 }
