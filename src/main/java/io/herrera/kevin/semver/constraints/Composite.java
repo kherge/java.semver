@@ -73,6 +73,7 @@ abstract class Composite implements Constraint {
         for (Constraint constraint: constraints) {
             switch (constrain(version, constraint)) {
                 case CONTINUE:
+                default:
                     continue;
 
                 case FAIL:
@@ -80,9 +81,6 @@ abstract class Composite implements Constraint {
 
                 case PASS:
                     return true;
-
-                default:
-                    continue;
             }
         }
 
