@@ -174,6 +174,24 @@ public final class Constraints {
         return new Or().add(constraint);
     }
 
+    /**
+     * Requires a version number to be a pre-release number.
+     *
+     * @return The version constraint.
+     */
+    public static PreRelease pre() {
+        return new PreRelease();
+    }
+
+    /**
+     * Requires a version number to be stable.
+     *
+     * @return The version constraint.
+     */
+    public static Stable stable() {
+        return new Stable();
+    }
+
     private Constraints() {
         // Should not be instantiated.
     }
