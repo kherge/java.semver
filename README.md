@@ -34,7 +34,7 @@ Installation
 ### Gradle
 
 ```groovy
-compile 'io.herrera.kevin:semver:<version>'
+compile 'io.herrera.kevin:semver:?'
 ```
 
 ### Maven
@@ -43,7 +43,7 @@ compile 'io.herrera.kevin:semver:<version>'
 <dependency>
   <groupId>io.herrera.kevin</groupId>
   <artifactId>semver</artifactId>
-  <version>1.0.0</version>
+  <version>?</version>
 </dependency>
 ```
 
