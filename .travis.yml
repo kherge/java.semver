@@ -14,6 +14,8 @@ jdk:
     - openjdk-ea
     - oraclejdk8
 
+install: true
+
 language: java
 
 script: ./gradlew jacocoTestReport checkstyleMain
