@@ -207,6 +207,15 @@ uploadArchives {
                 url 'https://github.com/kherge/java.semver'
             }
 
+            // Set default OSSRH values.
+            if (!project.hasProperty('ossrhUsername')) {
+                ossrhUsername = null
+            }
+
+            if (!project.hasProperty('ossrhPassword')) {
+                ossrhPassword = null
+            }
+
             // Configure artifact repository.
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
               authentication(userName: ossrhUsername, password: ossrhPassword)
