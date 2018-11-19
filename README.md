@@ -28,6 +28,25 @@ Requirements
 
 - Java 8
 
+Installation
+------------
+
+### Gradle
+
+```groovy
+compile 'io.herrera.kevin:semver:<version>'
+```
+
+### Maven
+
+```xml
+<dependency>
+  <groupId>io.herrera.kevin</groupId>
+  <artifactId>semver</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
 Usage
 -----
 
