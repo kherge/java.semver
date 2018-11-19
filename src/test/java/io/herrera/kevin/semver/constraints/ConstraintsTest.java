@@ -1,8 +1,17 @@
 package io.herrera.kevin.semver.constraints;
 
+import static io.herrera.kevin.semver.constraints.Constraints.and;
+import static io.herrera.kevin.semver.constraints.Constraints.eq;
+import static io.herrera.kevin.semver.constraints.Constraints.gt;
+import static io.herrera.kevin.semver.constraints.Constraints.gte;
+import static io.herrera.kevin.semver.constraints.Constraints.lt;
+import static io.herrera.kevin.semver.constraints.Constraints.lte;
+import static io.herrera.kevin.semver.constraints.Constraints.ne;
+import static io.herrera.kevin.semver.constraints.Constraints.or;
+import static io.herrera.kevin.semver.constraints.Constraints.pre;
+import static io.herrera.kevin.semver.constraints.Constraints.stable;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static io.herrera.kevin.semver.constraints.Constraints.*;
 
 import io.herrera.kevin.semver.Version;
 import org.junit.jupiter.api.Test;

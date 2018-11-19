@@ -16,6 +16,9 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 public class CompositeTest {
 
+    /**
+     * Verifies that the composite constraint functions consistently and predictably.
+     */
     @MethodSource("getCompositeCases")
     @ParameterizedTest
     public void applyTest(Composite composite, Constraint constraint, Version version, boolean expected) {
