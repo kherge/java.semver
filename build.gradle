@@ -208,22 +208,17 @@ uploadArchives {
             }
 
             // Set default OSSRH values.
-            if (!project.hasProperty('ossrhUsername')) {
-                ossrhUsername = null
-            }
+            if (project.hasProperty('ossrhUsername') && project.hasProperty('ossrhPassword')) {
 
-            if (!project.hasProperty('ossrhPassword')) {
-                ossrhPassword = null
-            }
+                // Configure artifact repository.
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                  authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
 
-            // Configure artifact repository.
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-              authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            // Configure snapshot artifact repository.
-            snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
-              authentication(userName: ossrhUsername, password: ossrhPassword)
+                // Configure snapshot artifact repository.
+                snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+                  authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
             }
         }
     }
