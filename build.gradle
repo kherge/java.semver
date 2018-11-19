@@ -4,6 +4,8 @@ plugins {
     id 'jacoco'
     id 'java'
     id 'java-library'
+    id 'maven'
+    id 'signing'
 
     // Use Palantir's Git version plugin.
     // https://github.com/palantir/gradle-git-version
@@ -76,6 +78,13 @@ lombok {
     version = '1.18.4'
 }
 
+// Configure the signing plugin.
+signing {
+
+    // Sign all of the generated archives.
+    sign configurations.archives
+}
+
 // Use SonarQube to analyze the code.
 sonarqube {
     properties {
@@ -85,6 +94,39 @@ sonarqube {
         property 'sonar.login', System.getenv('SONAR_TOKEN')
         property 'sonar.java.checkstyle.reportPaths', './build/reports/checkstyle/main.xml'
     }
+}
+
+// Generates a JAR containing javadoc.
+task javadocJar(type: Jar) {
+
+    // Set the file name classifier.
+    classifier = 'javadoc'
+
+    // Set the description of the task.
+    description = 'Generates a JAR containing the javadoc.'
+
+    // Depend on javadoc.
+    from javadoc
+}
+
+// Generates a JAR containing sources.
+task sourcesJar(type: Jar) {
+
+    // Set the file name classifier.
+    classifier = 'sources'
+
+    // Set the description of the task.
+    description = 'Generates a JAR containing the source.'
+
+    // Depend on all main sources.
+    from sourceSets.main.allSource
+}
+
+// Configure artifact generation.
+artifacts {
+
+    // Include javadoc and sources.
+    archives javadocJar, sourcesJar
 }
 
 // Configure all Checkstyle tasks.
@@ -104,4 +146,76 @@ tasks.withType(Checkstyle) {
 // https://docs.gradle.org/current/userguide/java_testing.html#using_junit5
 test {
     useJUnitPlatform()
+}
+
+// Configure artifact deployment.
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            // Sign the POM before deploying.
+            beforeDeployment {
+                MavenDeployment deployment -> signing.signPom(deployment)
+            }
+
+            // Configure values for the POM.
+            pom.project {
+
+                // Set the description.
+                description = 'A library to parse, compare, and constrain semantic version numbers.'
+
+                // Set the maintainers of this project.
+                developers {
+
+                    // Add myself.
+                    developer {
+                        email 'kevin@herrera.io'
+                        id 'kherge'
+                        name 'Kevin Herreras'
+                    }
+                }
+
+                // Set the licenses this project is released under.
+                licenses {
+
+                    license {
+                        name 'Apache License 2.0'
+                        url 'https://github.com/kherge/java.semver/blob/master/APACHE-2.0'
+                    }
+
+                    // Set the MIT license.
+                    license {
+                        name 'MIT License'
+                        url 'https://github.com/kherge/java.semver/blob/master/MIT'
+                    }
+                }
+
+                // Set the name of the project.
+                name 'Semantic Versioning'
+
+                // Set the packaging as JAR.
+                packaging 'jar'
+
+                // Set the source code information.
+                scm {
+                    connection 'scm:git:https://github.com/kherge/java.semver.git'
+                    developerConnection 'scm:git:https://github.com/kherge/java.semver.git'
+                    url 'https://github.com/kherge/java.semver'
+                }
+
+                // Set the homepage of the project.
+                url 'https://github.com/kherge/java.semver'
+            }
+
+            // Configure artifact repository.
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+              authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            // Configure snapshot artifact repository.
+            snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+              authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+        }
+    }
 }
