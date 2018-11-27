@@ -46,6 +46,10 @@ public final class Version {
 
     /**
      * Validates a string as a semantic version number.
+     *
+     * This regular expression was created by David Fichtmueller. I found it on GitHub in an open issue on the official
+     * semantic versioning repository. It's not an "official" regex, but it covered every single positive and negative
+     * test I could throw at it: https://github.com/semver/semver/issues/232
      */
     private static final Pattern STRING_VALIDATOR = Pattern.compile(
         "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-(0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(\\.(0|[1-9]\\d*"
