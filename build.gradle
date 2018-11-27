@@ -88,6 +88,7 @@ signing {
 // Use SonarQube to analyze the code.
 sonarqube {
     properties {
+        property 'sonar.projectName', 'java.semver'
         property 'sonar.projectKey', 'kherge_java.semver'
         property 'sonar.organization', 'kherge-github'
         property 'sonar.host.url', 'https://sonarcloud.io'
