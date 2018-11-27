@@ -58,16 +58,16 @@ import io.herrera.kevin.semver.Version;
 
 class Example {
     public static void main() {
-        
+
         // Create a version number using a string representation.
         Version version = new Version("1.0.0-alpha.1+20181020.123");
-        
+
         // Create a version number using only number.
         Version version = new Version(1, 2, 3);
-        
+
         // Create a version number using numbers and pre-release metadata.
         Version version = new Version(1, 2, 3, new String[] {"alpha", "1"});
-        
+
         // Create a version number using numbers, pre-release, and build metadata.
         Version version = new Version(
             1,
@@ -76,10 +76,10 @@ class Example {
             new String[] {"alpha", "1"},
             new String[] {"20181020", "123"}
         );
-        
+
         // Create a version number using the default version number (0.0.0).
         Version version = Version.DEFAULT;
-        
+
         // Create a version number using a builder interface.
         Version version = Version
             .DEFAULT
@@ -88,14 +88,14 @@ class Example {
             .setPatch(3)
             .setPreRelease("alpha", "1")
             .setBuild("20181020", "123");
-        
+
         // Get version information.
         int major = version.getMajor();
         int minor = version.getMinor();
         int patch = version.getPatch();
         String[] preRelease = version.getPreRelease();
         String[] build = version.getBuild();
-        
+
         // Set version information.
         Version changed = version
             .clearPreRelease()
@@ -105,78 +105,104 @@ class Example {
             .setPatch(6)
             .setPreRelease("beta", "2")
             .setBuild("20181020", "456");
-        
+
         // Increment version information.
         Version changed = version
             .incrementMajor()
             .incrementMinor()
             .incrementPatch();
-        
+
         Version changed = version
             .incrementMajor(123)
             .incrementMinor(456)
             .incrementPatch(789);
-        
+
         // Create a string representation.
         String string = version.toString();
-        
+
         // Perform basic comparisons.
         Version another = new Version("2.0.0");
-        
+
         if (version.isEqualTo(another)) {
             // Can also use: version.equals(another)
         }
-        
+
         if (version.isGreaterThan(another)) {
             // ...
         }
-        
+
         if (version.isLessThan(another)) {
             // ...
         }
-        
+
         // Perform stability checks.
-        
+
         if (version.isPreRelease()) {
             // ...
         }
-        
+
         if (version.isStable()) {
             // ...
         }
-        
+
         // Can create and apply complex version constraints.
-        
+
         // Match any of the following conditions.
         Constraint constraint = or(
-            
+
             // Match all of these conditions.
             and(
-                
+
                 // The version must be greater than or equal to this one.
                 gte("1.0.0"),
-                
+
                 // The version must be less than this one.
                 lt("2.0.0"),
-                
+
                 // The version must not equal to this one.
                 ne("1.2.3")
             ),
-            
+
             // Match all of these conditions.
             and(
-                
+
                 // The version must be greater than this one.
                 gt("2.0.0"),
-                
+
                 // The version must be less than or equal to this one.
                 lte("2.1.0")
             ),
-            
+
             // The version must be equal to this one.
-            eq("9.9.9")
+            eq("9.9.9"),
+
+            // Match all of these conditions.
+            and(
+
+                // The version must be greater than or equal to this one.
+                gte("10.0.0"),
+
+                // The version must be less than this one.
+                lt("11.0.0"),
+
+                // The version must be stable.
+                stable()
+            ),
+
+            // Match all of these conditions.
+            and(
+
+                // The version must be greater than or equal to this one.
+                gte("11.0.0"),
+
+                // The version must be less than this one.
+                lt("12.0.0"),
+
+                // The version must be pre-release.
+                pre()
+            )
         );
-        
+
         if (constraint.apply(version)) {
             // ...
         }
